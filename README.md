@@ -1,6 +1,8 @@
 horenso-reporter-slack
 =====================
 
+![image](doc/image.png)
+
 ## Usage
 
 ```shell
