@@ -10,7 +10,14 @@ import (
 
 func main() {
 	token := os.Getenv("SLACK_TOKEN")
+	channelName := os.Getenv("SLACK_CHANNEL")
 	groupName := os.Getenv("SLACK_GROUP")
+
+	if len(token) == 0 {
+		panic("SLACK_TOKEN environment variable is required.")
+	} else if len(channelName) == 0 && len(groupName) == 0 {
+		panic("SLACK_CHANNEL or SLACK_GROUP environment variable is required.")
+	}
 
 	stdin, err := ioutil.ReadAll(os.Stdin)
 	if err != nil {
@@ -21,6 +28,11 @@ func main() {
 	r := slackreporter.GetReport(stdin)
 
 	if *r.ExitCode != 0 {
-		slackreporter.NotifyToGroup(*api, r, groupName)
+		if len(channelName) > 0 {
+			slackreporter.NotifyToChannel(*api, r, channelName)
+		}
+		if len(groupName) > 0 {
+			slackreporter.NotifyToGroup(*api, r, groupName)
+		}
 	}
 }
