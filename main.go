@@ -20,5 +20,7 @@ func main() {
 	api := slack.New(token)
 	r := slackreporter.GetReport(stdin)
 
-	slackreporter.NotifyToGroup(*api, r, groupName)
+	if *r.ExitCode != 0 {
+		slackreporter.NotifyToGroup(*api, r, groupName)
+	}
 }
