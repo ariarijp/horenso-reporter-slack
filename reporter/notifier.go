@@ -59,6 +59,11 @@ func GetAttachments(r horenso.Report) []*slack.Attachment {
 			Value: fmt.Sprintf("%v", r.EndAt),
 			Short: true,
 		},
+		&slack.AttachmentField{
+			Title: "SystemTime",
+			Value: fmt.Sprintf("%f", *r.SystemTime),
+			Short: true,
+		},
 	}
 
 	return append(attachments, &a)
