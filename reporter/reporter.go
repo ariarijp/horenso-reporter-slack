@@ -80,28 +80,28 @@ func GetSlackChatPostMessageOpt(r horenso.Report) slack.ChatPostMessageOpt {
 	}
 }
 
-func NotifyToGroup(api slack.Slack, r horenso.Report, groupName string) {
+func GetGroupId(api slack.Slack, r horenso.Report, groupName string) string {
 	group, err := api.FindGroupByName(groupName)
 	if err != nil {
 		panic(err)
 	}
 
-	Notify(api, r, group.Id)
+	return group.Id
 }
 
-func NotifyToChannel(api slack.Slack, r horenso.Report, channelName string) {
+func GetChannelId(api slack.Slack, r horenso.Report, channelName string) string {
 	channel, err := api.FindChannelByName(channelName)
 	if err != nil {
 		panic(err)
 	}
 
-	Notify(api, r, channel.Id)
+	return channel.Id
 }
 
-func Notify(api slack.Slack, r horenso.Report, id string) {
+func Notify(api slack.Slack, r horenso.Report, id string, m string) {
 	opt := GetSlackChatPostMessageOpt(r)
 
-	err := api.ChatPostMessage(id, "", &opt)
+	err := api.ChatPostMessage(id, m, &opt)
 	if err != nil {
 		panic(err)
 	}

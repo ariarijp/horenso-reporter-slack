@@ -24,15 +24,22 @@ func main() {
 		panic(err)
 	}
 
-	api := slack.New(token)
 	r := slackreporter.GetReport(stdin)
 
+	var id, m string
+	api := slack.New(token)
+
+	if len(channelName) > 0 {
+		id = slackreporter.GetChannelId(*api, r, channelName)
+		m = "<!channel>"
+	} else if len(groupName) > 0 {
+		id = slackreporter.GetGroupId(*api, r, groupName)
+		m = "<!group>"
+	}
+
 	if *r.ExitCode != 0 {
-		if len(channelName) > 0 {
-			slackreporter.NotifyToChannel(*api, r, channelName)
-		}
-		if len(groupName) > 0 {
-			slackreporter.NotifyToGroup(*api, r, groupName)
-		}
+		slackreporter.Notify(*api, r, id, m)
+	} else {
+		slackreporter.Notify(*api, r, id, "<!here>")
 	}
 }
