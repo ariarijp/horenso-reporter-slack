@@ -19,6 +19,7 @@ run: build
 
 test: deps
 	go get github.com/stretchr/testify/assert
-	go test ./...
+	go get github.com/pierrre/gotestcover
+	gotestcover -v -covermode=count -coverprofile=.profile.cov ./...
 
 .PHONY: all build clean deps run test
