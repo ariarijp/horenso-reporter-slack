@@ -1,45 +1,21 @@
 package main
 
 import (
-	"io/ioutil"
 	"os"
 
-	slackreporter "github.com/ariarijp/horenso-reporter-slack/reporter"
+	"github.com/ariarijp/horenso-reporter-slack/helper"
+	"github.com/ariarijp/horenso-reporter-slack/reporter"
 	"github.com/bluele/slack"
 )
 
 func main() {
-	token := os.Getenv("SLACK_TOKEN")
-	channelName := os.Getenv("SLACK_CHANNEL")
-	groupName := os.Getenv("SLACK_GROUP")
+	token, channelName, groupName := helper.Getenvs()
+	r := helper.GetReport(os.Stdin)
 
-	if len(token) == 0 {
-		panic("SLACK_TOKEN environment variable is required.")
-	} else if len(channelName) == 0 && len(groupName) == 0 {
-		panic("SLACK_CHANNEL or SLACK_GROUP environment variable is required.")
-	}
-
-	stdin, err := ioutil.ReadAll(os.Stdin)
-	if err != nil {
-		panic(err)
-	}
-
-	r := slackreporter.GetReport(stdin)
-
-	var id, m string
 	api := slack.New(token)
 
-	if len(channelName) > 0 {
-		id = slackreporter.GetChannelId(*api, r, channelName)
-		m = "<!channel>"
-	} else if len(groupName) > 0 {
-		id = slackreporter.GetGroupId(*api, r, groupName)
-		m = "<!group>"
-	}
+	id := helper.GetID(api, r, channelName, groupName)
+	m := helper.GetMessage(r)
 
-	if *r.ExitCode != 0 {
-		slackreporter.Notify(*api, r, id, m)
-	} else {
-		slackreporter.Notify(*api, r, id, "<!here>")
-	}
+	reporter.SendReportToSlack(api, r, id, m)
 }

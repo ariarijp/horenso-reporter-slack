@@ -7,6 +7,7 @@ import (
 	"github.com/bluele/slack"
 )
 
+// GetAttachments get attachments for message
 func GetAttachments(r horenso.Report) []*slack.Attachment {
 	var attachments []*slack.Attachment
 
@@ -74,13 +75,15 @@ func GetAttachments(r horenso.Report) []*slack.Attachment {
 	return append(attachments, &a)
 }
 
+// GetSlackChatPostMessageOpt message options for message
 func GetSlackChatPostMessageOpt(r horenso.Report) slack.ChatPostMessageOpt {
 	return slack.ChatPostMessageOpt{
 		Attachments: GetAttachments(r),
 	}
 }
 
-func GetGroupId(api slack.Slack, r horenso.Report, groupName string) string {
+// GetGroupID get Slack group ID by group name
+func GetGroupID(api *slack.Slack, r horenso.Report, groupName string) string {
 	group, err := api.FindGroupByName(groupName)
 	if err != nil {
 		panic(err)
@@ -89,7 +92,8 @@ func GetGroupId(api slack.Slack, r horenso.Report, groupName string) string {
 	return group.Id
 }
 
-func GetChannelId(api slack.Slack, r horenso.Report, channelName string) string {
+// GetChannelID get Slack channel ID by channel name
+func GetChannelID(api *slack.Slack, r horenso.Report, channelName string) string {
 	channel, err := api.FindChannelByName(channelName)
 	if err != nil {
 		panic(err)
@@ -98,7 +102,8 @@ func GetChannelId(api slack.Slack, r horenso.Report, channelName string) string 
 	return channel.Id
 }
 
-func Notify(api slack.Slack, r horenso.Report, id string, m string) {
+// SendReportToSlack send Report to Slack
+func SendReportToSlack(api *slack.Slack, r horenso.Report, id string, m string) {
 	opt := GetSlackChatPostMessageOpt(r)
 
 	err := api.ChatPostMessage(id, m, &opt)

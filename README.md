@@ -8,7 +8,8 @@ horenso-reporter-slack
 ```shell
 $ go get github.com/Songmu/horenso/cmd/horenso
 $ go build
-$ SLACK_TOKEN="YOUR_SLACK_TOKEN" SLACK_GROUP="GROUP_NAME" horenso -r ./horenso-reporter-slack -- [command]
+$ HRS_SLACK_TOKEN="YOUR_SLACK_TOKEN" HRS_SLACK_CHANNEL="general" horenso -r ./horenso-reporter-slack -- [command]
+$ HRS_SLACK_TOKEN="YOUR_SLACK_TOKEN" HRS_SLACK_GROUP="private_group" horenso -r ./horenso-reporter-slack -- [command]
 ```
 
 ## License
