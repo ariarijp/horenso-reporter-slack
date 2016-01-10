@@ -1,6 +1,8 @@
 horenso-reporter-slack
 =====================
 
+[![Build Status](https://travis-ci.org/ariarijp/horenso-reporter-slack.svg?branch=master)](https://travis-ci.org/ariarijp/horenso-reporter-slack)
+
 ![image](doc/image.png)
 
 ## Usage
