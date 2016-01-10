@@ -1,0 +1,6 @@
+language: go
+
+script:
+  - go get github.com/stretchr/testify/assert
+  - go get github.com/pierrre/gotestcover
+  - gotestcover -v -covermode=count -coverprofile=.profile.cov ./...
