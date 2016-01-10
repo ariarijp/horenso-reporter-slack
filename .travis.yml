@@ -1,6 +1,6 @@
 language: go
-
+go:
+- 1.5
+env: PATH=/home/travis/gopath/bin:$PATH
 script:
-  - go get github.com/stretchr/testify/assert
-  - go get github.com/pierrre/gotestcover
-  - gotestcover -v -covermode=count -coverprofile=.profile.cov ./...
+  make test
