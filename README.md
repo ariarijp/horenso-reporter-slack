@@ -10,9 +10,7 @@ This plugin only support [horenso](https://github.com/Songmu/horenso) versions v
 ## Usage
 
 ```shell
-$ go get https://github.com/ariarijp/horenso-reporter-slack.git
-$ cd horenso-reporter-slack
-$ make
+$ go get github.com/ariarijp/horenso-reporter-slack/cmd/horenso-reporter-slack
 $ HRS_SLACK_TOKEN="YOUR_SLACK_TOKEN" HRS_SLACK_CHANNEL="general" horenso -r ./horenso-reporter-slack -- [command]
 $ HRS_SLACK_TOKEN="YOUR_SLACK_TOKEN" HRS_SLACK_GROUP="private_group" horenso -r ./horenso-reporter-slack -- [command]
 ```
