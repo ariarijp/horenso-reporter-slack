@@ -5,6 +5,8 @@ horenso-reporter-slack
 
 ![image](doc/image.png)
 
+This plugin only support [horenso](https://github.com/Songmu/horenso) versions v0.0.1 and higher.
+
 ## Usage
 
 ```shell
