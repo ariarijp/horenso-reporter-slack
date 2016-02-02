@@ -50,7 +50,7 @@ func GetID(api *slack.Slack, r horenso.Report, channelName string, groupName str
 // GetMessage get message
 func GetMessage(r horenso.Report) string {
 	if *r.ExitCode == 0 {
-		return "<!here>"
+		return ""
 	}
 
 	return "<!channel>"

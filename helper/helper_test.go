@@ -83,7 +83,7 @@ func TestGetMessage(t *testing.T) {
 
 	exitCode := 0
 	r.ExitCode = &exitCode
-	assert.Equal(t, "<!here>", GetMessage(r))
+	assert.Equal(t, "", GetMessage(r))
 
 	exitCode = 1
 	assert.Equal(t, "<!channel>", GetMessage(r))
