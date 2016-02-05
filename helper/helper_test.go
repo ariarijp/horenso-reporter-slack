@@ -26,7 +26,7 @@ func TestGetenvs(t *testing.T) {
 		}()
 
 		resetEnvs()
-		token, _, _ := Getenvs()
+		token, _, _, _ := Getenvs()
 		if token == "" {
 			t.Fail()
 		}
@@ -44,7 +44,7 @@ func TestGetenvs(t *testing.T) {
 
 		resetEnvs()
 		os.Setenv("HRS_SLACK_TOKEN", "token")
-		token, _, _ := Getenvs()
+		token, _, _, _ := Getenvs()
 		if token == "" {
 			t.Fail()
 		}
@@ -56,11 +56,12 @@ func TestGetenvs(t *testing.T) {
 		os.Setenv("HRS_SLACK_CHANNEL", "channel")
 		os.Setenv("HRS_SLACK_GROUP", "group")
 
-		token, channelName, groupName := Getenvs()
+		token, channelName, groupName, items := Getenvs()
 
 		assert.Equal(t, "token", token)
 		assert.Equal(t, "channel", channelName)
 		assert.Equal(t, "group", groupName)
+		assert.Equal(t, []string{"all"}, items)
 	}()
 }
 

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"os"
+	"strings"
 
 	"github.com/Songmu/horenso"
 	"github.com/ariarijp/horenso-reporter-slack/reporter"
@@ -11,7 +12,7 @@ import (
 )
 
 // Getenvs get environment varibles
-func Getenvs() (string, string, string) {
+func Getenvs() (string, string, string, []string) {
 	token, channelName, groupName := os.Getenv("HRS_SLACK_TOKEN"), os.Getenv("HRS_SLACK_CHANNEL"), os.Getenv("HRS_SLACK_GROUP")
 
 	if len(token) == 0 {
@@ -20,7 +21,15 @@ func Getenvs() (string, string, string) {
 		panic("HRS_SLACK_CHANNEL or HRS_SLACK_GROUP environment variable is required.")
 	}
 
-	return token, channelName, groupName
+	itemsStr := os.Getenv("HRS_SLACK_ITEMS")
+	var items []string
+	if len(itemsStr) > 0 {
+		items = strings.Split(itemsStr, ",")
+	} else {
+		items = []string{"all"}
+	}
+
+	return token, channelName, groupName, items
 }
 
 // GetReport get horenso report via STDIN

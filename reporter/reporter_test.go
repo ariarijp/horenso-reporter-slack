@@ -18,7 +18,8 @@ func TestGetAttachments(t *testing.T) {
 	var r horenso.Report
 	json.Unmarshal(jsonBytes, &r)
 
-	a := GetAttachments(r)
+	items := []string{"all"}
+	a := GetAttachments(r, items)
 
 	assert.Equal(t, "horenso Reporter", a[0].Fallback)
 }
@@ -30,7 +31,8 @@ func TestGetSlackChatPostMessageOpt(t *testing.T) {
 	var r horenso.Report
 	json.Unmarshal(jsonBytes, &r)
 
-	opts := GetSlackChatPostMessageOpt(r)
+	items := []string{"all"}
+	opts := GetSlackChatPostMessageOpt(r, items)
 
 	assert.Equal(t, "slack.ChatPostMessageOpt", reflect.TypeOf(opts).String())
 	assert.Equal(t, "[]*slack.Attachment", reflect.TypeOf(opts.Attachments).String())
