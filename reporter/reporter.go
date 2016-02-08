@@ -27,6 +27,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 		fields = append(fields, &slack.AttachmentField{
 			Title: "Result",
 			Value: fmt.Sprintf("%v", r.Result),
+			Short: true,
 		})
 	}
 
@@ -34,6 +35,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 		fields = append(fields, &slack.AttachmentField{
 			Title: "Output",
 			Value: fmt.Sprintf("%v", r.Output),
+			Short: true,
 		})
 	}
 
@@ -41,6 +43,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 		fields = append(fields, &slack.AttachmentField{
 			Title: "Stdout",
 			Value: fmt.Sprintf("%v", r.Stdout),
+			Short: true,
 		})
 	}
 
@@ -48,6 +51,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 		fields = append(fields, &slack.AttachmentField{
 			Title: "Stderr",
 			Value: fmt.Sprintf("%v", r.Stderr),
+			Short: true,
 		})
 	}
 
@@ -55,6 +59,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 		fields = append(fields, &slack.AttachmentField{
 			Title: "Command",
 			Value: fmt.Sprintf("%v", r.Command),
+			Short: true,
 		})
 	}
 
@@ -62,6 +67,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 		fields = append(fields, &slack.AttachmentField{
 			Title: "CommandArgs",
 			Value: fmt.Sprintf("%v", r.CommandArgs),
+			Short: true,
 		})
 	}
 
