@@ -23,65 +23,99 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 
 	fields := []*slack.AttachmentField{}
 
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Result",
-		Value: fmt.Sprintf("%v", r.Result),
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Output",
-		Value: fmt.Sprintf("%v", r.Output),
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Stdout",
-		Value: fmt.Sprintf("%v", r.Stdout),
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Stderr",
-		Value: fmt.Sprintf("%v", r.Stderr),
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Command",
-		Value: fmt.Sprintf("%v", r.Command),
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "CommandArgs",
-		Value: fmt.Sprintf("%v", r.CommandArgs),
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Pid",
-		Value: fmt.Sprintf("%d", r.Pid),
-		Short: true,
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "ExitCode",
-		Value: fmt.Sprintf("%d", *r.ExitCode),
-		Short: true,
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "StartAt",
-		Value: fmt.Sprintf("%v", r.StartAt),
-		Short: true,
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "EndAt",
-		Value: fmt.Sprintf("%v", r.EndAt),
-		Short: true,
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "Hostname",
-		Value: fmt.Sprintf("%v", r.Hostname),
-		Short: true,
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "SystemTime",
-		Value: fmt.Sprintf("%f", *r.SystemTime),
-		Short: true,
-	})
-	fields = append(fields, &slack.AttachmentField{
-		Title: "UserTime",
-		Value: fmt.Sprintf("%f", *r.UserTime),
-		Short: true,
-	})
+	if IsSelectedItem("Result", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Result",
+			Value: fmt.Sprintf("%v", r.Result),
+		})
+	}
+
+	if IsSelectedItem("Output", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Output",
+			Value: fmt.Sprintf("%v", r.Output),
+		})
+	}
+
+	if IsSelectedItem("Stdout", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Stdout",
+			Value: fmt.Sprintf("%v", r.Stdout),
+		})
+	}
+
+	if IsSelectedItem("Stderr", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Stderr",
+			Value: fmt.Sprintf("%v", r.Stderr),
+		})
+	}
+
+	if IsSelectedItem("Command", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Command",
+			Value: fmt.Sprintf("%v", r.Command),
+		})
+	}
+
+	if IsSelectedItem("CommandArgs", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "CommandArgs",
+			Value: fmt.Sprintf("%v", r.CommandArgs),
+		})
+	}
+
+	if IsSelectedItem("Pid", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Pid",
+			Value: fmt.Sprintf("%d", r.Pid),
+			Short: true,
+		})
+	}
+
+	if IsSelectedItem("ExitCode", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "ExitCode",
+			Value: fmt.Sprintf("%d", *r.ExitCode),
+			Short: true,
+		})
+	}
+
+	if IsSelectedItem("StartAt", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "StartAt",
+			Value: fmt.Sprintf("%v", r.StartAt),
+			Short: true,
+		})
+	}
+	if IsSelectedItem("EndAt", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "EndAt",
+			Value: fmt.Sprintf("%v", r.EndAt),
+			Short: true,
+		})
+	}
+	if IsSelectedItem("Hostname", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "Hostname",
+			Value: fmt.Sprintf("%v", r.Hostname),
+			Short: true,
+		})
+	}
+	if IsSelectedItem("SystemTime", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "SystemTime",
+			Value: fmt.Sprintf("%f", *r.SystemTime),
+			Short: true,
+		})
+	}
+	if IsSelectedItem("UserTime", items) {
+		fields = append(fields, &slack.AttachmentField{
+			Title: "UserTime",
+			Value: fmt.Sprintf("%f", *r.UserTime),
+			Short: true,
+		})
+	}
 
 	a.Fields = fields
 
@@ -103,4 +137,22 @@ func SendReportToSlack(api *slack.Slack, r horenso.Report, id string, m string, 
 	if err != nil {
 		panic(err)
 	}
+}
+
+// IsSelectedItem returns key exists in slice
+func IsSelectedItem(a string, list []string) bool {
+	if len(list) == 0 {
+		return false
+	}
+
+	if list[0] == "all" {
+		return true
+	}
+
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
 }

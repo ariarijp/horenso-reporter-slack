@@ -20,8 +20,20 @@ func TestGetAttachments(t *testing.T) {
 
 	items := []string{"all"}
 	a := GetAttachments(r, items)
+	assert.Equal(t, 13, len(a[0].Fields))
+	assert.Equal(t, "command exited with code: 0", a[0].Fields[0].Value)
+	assert.Equal(t, "1\n95030\n", a[0].Fields[1].Value)
 
-	assert.Equal(t, "horenso Reporter", a[0].Fallback)
+	items = []string{"Output"}
+	a = GetAttachments(r, items)
+	assert.Equal(t, 1, len(a[0].Fields))
+	assert.Equal(t, "1\n95030\n", a[0].Fields[0].Value)
+
+	items = []string{"Output", "ExitCode"}
+	a = GetAttachments(r, items)
+	assert.Equal(t, 2, len(a[0].Fields))
+	assert.Equal(t, "1\n95030\n", a[0].Fields[0].Value)
+	assert.Equal(t, "0", a[0].Fields[1].Value)
 }
 
 func TestGetSlackChatPostMessageOpt(t *testing.T) {
@@ -37,4 +49,11 @@ func TestGetSlackChatPostMessageOpt(t *testing.T) {
 	assert.Equal(t, "slack.ChatPostMessageOpt", reflect.TypeOf(opts).String())
 	assert.Equal(t, "[]*slack.Attachment", reflect.TypeOf(opts.Attachments).String())
 	assert.Equal(t, "#00ff00", opts.Attachments[0].Color)
+}
+
+func TestIsSelectedItem(t *testing.T) {
+	assert.True(t, IsSelectedItem("ExitCode", []string{"all"}))
+	assert.True(t, IsSelectedItem("ExitCode", []string{"ExitCode", "Output"}))
+	assert.False(t, IsSelectedItem("Stdout", []string{"ExitCode", "Output"}))
+	assert.False(t, IsSelectedItem("ExitCode", []string{}))
 }
