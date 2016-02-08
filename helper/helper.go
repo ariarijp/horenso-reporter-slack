@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/Songmu/horenso"
-	"github.com/ariarijp/horenso-reporter-slack/reporter"
 	"github.com/bluele/slack"
 )
 
@@ -48,9 +47,9 @@ func GetReport(f *os.File) horenso.Report {
 // GetID get Slack channel ID or group ID
 func GetID(api *slack.Slack, r horenso.Report, channelName string, groupName string) string {
 	if len(channelName) > 0 {
-		return reporter.GetChannelID(api, r, channelName)
+		return GetChannelID(api, r, channelName)
 	} else if len(groupName) > 0 {
-		return reporter.GetGroupID(api, r, groupName)
+		return GetGroupID(api, r, groupName)
 	}
 
 	panic("Could not resolve ID.")
@@ -63,4 +62,24 @@ func GetMessage(r horenso.Report) string {
 	}
 
 	return "<!channel>"
+}
+
+// GetGroupID get Slack group ID by group name
+func GetGroupID(api *slack.Slack, r horenso.Report, groupName string) string {
+	group, err := api.FindGroupByName(groupName)
+	if err != nil {
+		panic(err)
+	}
+
+	return group.Id
+}
+
+// GetChannelID get Slack channel ID by channel name
+func GetChannelID(api *slack.Slack, r horenso.Report, channelName string) string {
+	channel, err := api.FindChannelByName(channelName)
+	if err != nil {
+		panic(err)
+	}
+
+	return channel.Id
 }

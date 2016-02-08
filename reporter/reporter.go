@@ -95,26 +95,6 @@ func GetSlackChatPostMessageOpt(r horenso.Report, items []string) slack.ChatPost
 	}
 }
 
-// GetGroupID get Slack group ID by group name
-func GetGroupID(api *slack.Slack, r horenso.Report, groupName string) string {
-	group, err := api.FindGroupByName(groupName)
-	if err != nil {
-		panic(err)
-	}
-
-	return group.Id
-}
-
-// GetChannelID get Slack channel ID by channel name
-func GetChannelID(api *slack.Slack, r horenso.Report, channelName string) string {
-	channel, err := api.FindChannelByName(channelName)
-	if err != nil {
-		panic(err)
-	}
-
-	return channel.Id
-}
-
 // SendReportToSlack send Report to Slack
 func SendReportToSlack(api *slack.Slack, r horenso.Report, id string, m string, items []string) {
 	opt := GetSlackChatPostMessageOpt(r, items)
