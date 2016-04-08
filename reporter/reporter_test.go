@@ -48,7 +48,7 @@ func TestGetSlackChatPostMessageOpt(t *testing.T) {
 
 	assert.Equal(t, "slack.ChatPostMessageOpt", reflect.TypeOf(opts).String())
 	assert.Equal(t, "[]*slack.Attachment", reflect.TypeOf(opts.Attachments).String())
-	assert.Equal(t, "#00ff00", opts.Attachments[0].Color)
+	assert.Equal(t, "#32B232", opts.Attachments[0].Color)
 }
 
 func TestIsSelectedItem(t *testing.T) {
