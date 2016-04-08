@@ -16,7 +16,7 @@ func GetAttachments(r horenso.Report, items []string) []*slack.Attachment {
 	a.AuthorName = "horenso Reporter"
 
 	if *r.ExitCode == 0 {
-		a.Color = "#00ff00"
+		a.Color = "#228822"
 	} else {
 		a.Color = "#ff0000"
 	}
