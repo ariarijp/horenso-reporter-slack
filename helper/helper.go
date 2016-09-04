@@ -11,8 +11,14 @@ import (
 )
 
 // Getenvs get environment varibles
-func Getenvs() (string, string, string, []string) {
-	token, channelName, groupName := os.Getenv("HRS_SLACK_TOKEN"), os.Getenv("HRS_SLACK_CHANNEL"), os.Getenv("HRS_SLACK_GROUP")
+func Getenvs() (string, string, string, string, []string) {
+	token := os.Getenv("HRS_SLACK_TOKEN")
+	channelName := os.Getenv("HRS_SLACK_CHANNEL")
+	groupName := os.Getenv("HRS_SLACK_GROUP")
+	mention := os.Getenv("HRS_SLACK_MENTION")
+	if len(mention) == 0 {
+		mention = "channel"
+	}
 
 	if len(token) == 0 {
 		panic("HRS_SLACK_TOKEN environment variable is required.")
@@ -28,7 +34,7 @@ func Getenvs() (string, string, string, []string) {
 		items = []string{"all"}
 	}
 
-	return token, channelName, groupName, items
+	return token, channelName, groupName, mention, items
 }
 
 // GetReport get horenso report via STDIN
@@ -53,15 +59,6 @@ func GetID(api *slack.Slack, r horenso.Report, channelName string, groupName str
 	}
 
 	panic("Could not resolve ID.")
-}
-
-// GetMessage get message
-func GetMessage(r horenso.Report) string {
-	if *r.ExitCode == 0 {
-		return ""
-	}
-
-	return "<!channel>"
 }
 
 // GetGroupID get Slack group ID by group name

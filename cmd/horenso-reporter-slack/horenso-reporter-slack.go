@@ -9,13 +9,12 @@ import (
 )
 
 func main() {
-	token, channelName, groupName, items := helper.Getenvs()
+	token, channelName, groupName, mention, items := helper.Getenvs()
 	r := helper.GetReport(os.Stdin)
 
 	api := slack.New(token)
 
 	id := helper.GetID(api, r, channelName, groupName)
-	m := helper.GetMessage(r)
 
-	reporter.SendReportToSlack(api, r, id, m, items)
+	reporter.SendReportToSlack(api, r, id, mention, items)
 }
