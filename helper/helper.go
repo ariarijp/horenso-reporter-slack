@@ -2,6 +2,7 @@ package helper
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strings"
@@ -59,6 +60,15 @@ func GetID(api *slack.Slack, r horenso.Report, channelName string, groupName str
 	}
 
 	panic("Could not resolve ID.")
+}
+
+// GetMessage get message
+func GetMessage(r horenso.Report, mention string) string {
+	if *r.ExitCode == 0 {
+		return ""
+	}
+
+	return fmt.Sprintf("<!%s>", mention)
 }
 
 // GetGroupID get Slack group ID by group name

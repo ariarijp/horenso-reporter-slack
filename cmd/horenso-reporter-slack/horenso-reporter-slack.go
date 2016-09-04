@@ -15,6 +15,7 @@ func main() {
 	api := slack.New(token)
 
 	id := helper.GetID(api, r, channelName, groupName)
+	msg := helper.GetMessage(r, mention)
 
-	reporter.SendReportToSlack(api, r, id, mention, items)
+	reporter.SendReportToSlack(api, r, id, msg, items)
 }

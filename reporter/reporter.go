@@ -136,8 +136,7 @@ func GetSlackChatPostMessageOpt(r horenso.Report, items []string) slack.ChatPost
 }
 
 // SendReportToSlack send Report to Slack
-func SendReportToSlack(api *slack.Slack, r horenso.Report, id string, mention string, items []string) {
-	msg := fmt.Sprintf("<!%s>", mention)
+func SendReportToSlack(api *slack.Slack, r horenso.Report, id string, msg string, items []string) {
 	opt := GetSlackChatPostMessageOpt(r, items)
 
 	err := api.ChatPostMessage(id, msg, &opt)

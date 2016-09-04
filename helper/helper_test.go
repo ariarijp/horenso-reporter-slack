@@ -4,6 +4,7 @@ import (
 	"os"
 	"testing"
 
+	"github.com/Songmu/horenso"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -79,4 +80,15 @@ func TestGetReport(t *testing.T) {
 		r := GetReport(f)
 		assert.Equal(t, 1, *r.ExitCode)
 	}()
+}
+
+func TestGetMessage(t *testing.T) {
+	var r horenso.Report
+
+	exitCode := 0
+	r.ExitCode = &exitCode
+	assert.Equal(t, "", GetMessage(r, "channel"))
+
+	exitCode = 1
+	assert.Equal(t, "<!channel>", GetMessage(r, "channel"))
 }
