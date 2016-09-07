@@ -15,6 +15,34 @@ $ HRS_SLACK_TOKEN="YOUR_SLACK_TOKEN" HRS_SLACK_CHANNEL="general" horenso -r ./ho
 $ HRS_SLACK_TOKEN="YOUR_SLACK_TOKEN" HRS_SLACK_GROUP="private_group" horenso -r ./horenso-reporter-slack -- [command]
 ```
 
+### Environment Variables
+
+* `HRS_SLACK_TOKEN`(required)
+  * Slack API Token
+* `HRS_SLACK_CHANNEL`(required when `HRS_SLACK_GROUP` is not provided)
+  * Slack channel name
+* `HRS_SLACK_GROUP`(required when `HRS_SLACK_CHANNEL` is not provided)
+  * Slack private group name
+* `HRS_SLACK_MENTION`(optional, default: `channel`)
+  * Slack mention(`channel` or `here` is supported)
+* `HRS_SLACK_ITEMS`(optional defauls: `all`):
+  * Select reporting items by Comma-Separated Values
+  * example: Stdout,Stderr,ExitCode
+  * supported items
+    * `Command`
+    * `CommandArgs`
+    * `Output`
+    * `Stdout`
+    * `Stderr`
+    * `ExitCode`
+    * `Result`
+    * `Pid`
+    * `StartAt`
+    * `EndAt`
+    * `Hostname`
+    * `SystemTime`
+    * `UserTime`
+
 ## License
 
 MIT
