@@ -12,7 +12,7 @@ import (
 )
 
 // Getenvs get environment varibles
-func Getenvs() (string, string, string, string, []string) {
+func Getenvs() (string, string, string, string, []string, bool) {
 	token := os.Getenv("HRS_SLACK_TOKEN")
 	channelName := os.Getenv("HRS_SLACK_CHANNEL")
 	groupName := os.Getenv("HRS_SLACK_GROUP")
@@ -35,7 +35,13 @@ func Getenvs() (string, string, string, string, []string) {
 		items = []string{"all"}
 	}
 
-	return token, channelName, groupName, mention, items
+	notifyEverythingEnv := os.Getenv("HRS_SLACK_NOTIFY_EVERYTHING")
+	notifyEverything := true
+	if len(notifyEverythingEnv) != 0 && notifyEverythingEnv == "0" {
+		notifyEverything = false
+	}
+
+	return token, channelName, groupName, mention, items, notifyEverything
 }
 
 // GetReport get horenso report via STDIN

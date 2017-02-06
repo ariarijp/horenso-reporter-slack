@@ -9,8 +9,12 @@ import (
 )
 
 func main() {
-	token, channelName, groupName, mention, items := helper.Getenvs()
+	token, channelName, groupName, mention, items, notifyEverything := helper.Getenvs()
 	r := helper.GetReport(os.Stdin)
+
+	if *r.ExitCode == 0 && !notifyEverything {
+		os.Exit(0)
+	}
 
 	api := slack.New(token)
 
