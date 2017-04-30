@@ -73,12 +73,21 @@ func TestGetReport(t *testing.T) {
 		f, _ := os.Open("../fixtures/report_exit_0.json")
 		r := GetReport(f)
 		assert.Equal(t, 0, *r.ExitCode)
+		assert.Equal(t, "command exited with code: 0", r.Result)
 	}()
 
 	func() {
 		f, _ := os.Open("../fixtures/report_exit_1.json")
 		r := GetReport(f)
 		assert.Equal(t, 1, *r.ExitCode)
+		assert.Equal(t, "command exited with code: 1", r.Result)
+	}()
+
+	func() {
+		f, _ := os.Open("../fixtures/report_not_found.json")
+		r := GetReport(f)
+		assert.Equal(t, -1, *r.ExitCode)
+		assert.Equal(t, "failed to execute command: exec: \"foobarbaz\": executable file not found in $PATH", r.Result)
 	}()
 }
 
