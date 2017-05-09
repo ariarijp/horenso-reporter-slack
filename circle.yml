@@ -1,13 +1,23 @@
 machine:
   timezone: Asia/Tokyo
+  environment:
+    BASEDIR: ${HOME}/.go_workspace/src/github.com/ariarijp
+    GITHUB_USER_NAME: ${CIRCLE_USERNAME}
+    GITHUB_REPO_NAME: ${CIRCLE_PROJECT_REPONAME}
+    REPLACE_NAME: ${CIRCLE_TAG}
+
+test:
+  override:
+    - cd ${BASEDIR}/horenso-reporter-slack && make test
+
+checkout:
+  post:
+    - mkdir -p ${BASEDIR}
+    - ln -s `pwd` ${BASEDIR}/horenso-reporter-slack
 
 deployment:
   release:
     tag: /^v[0-9]+(\.[0-9]+)*$/
     commands:
-      - go get -d -t -v ./...
-      - go get github.com/mitchellh/gox
-      - go get github.com/tcnksm/ghr
-      - cd cmd/horenso-reporter-slack/ && gox -osarch "linux/amd64 linux/arm darwin/amd64 windows/amd64" -output "dist/{{.OS}}_{{.Arch}}/{{.Dir}}"
-      - cmd/horenso-reporter-slack/ && mkdir distpkg && for ARCH in `ls dist/`; do zip -j -o distpkg/horenso-reporter-slack_${ARCH}.zip dist/${ARCH}/horenso-reporter-slack*; done
-      - ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -replace $CIRCLE_TAG cmd/horenso-reporter-slack/distpkg/
+      - cd ${BASEDIR}/horenso-reporter-slack && make deploy_from_circleci
+
